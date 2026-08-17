@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Halacha Lab</title>
+<meta name="theme-color" content="#111827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Halacha Lab">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/icon.svg">
+<style>
+:root{font-family:Inter,system-ui,-apple-system,sans-serif;color:#172033;background:#f3f5f8}
+*{box-sizing:border-box}body{margin:0}.wrap{max-width:760px;margin:auto;padding:24px 16px 40px}
+h1{font-size:36px;margin:8px 0}.sub{color:#667085;line-height:1.5;margin-bottom:24px}
+.grid{display:grid;gap:14px}.card{display:block;text-decoration:none;color:inherit;background:white;border:1px solid #dce1e8;border-radius:20px;padding:18px;box-shadow:0 8px 25px rgba(0,0,0,.05)}
+.card.live{border-color:#a8d5b5}.emoji{font-size:36px}.title{font-size:20px;font-weight:800;margin-top:5px}.meta{color:#667085;margin-top:4px;line-height:1.4}.pill{display:inline-block;margin-top:10px;border-radius:999px;padding:5px 9px;background:#eaf8ee;font-size:12px;font-weight:700}
+.soon .pill{background:#eef1f5}.footer{margin-top:24px;color:#7a8493;font-size:12px;line-height:1.5}
+</style></head><body><div class="wrap">
+<div style="font-size:13px;font-weight:800">📚 PLAY • TEST • LEARN</div>
+<h1>Halacha Lab</h1>
+<div class="sub">Interactive learning games. Each module keeps a permanent URL, so improvements can be published without changing the icon on your phone.</div>
+<div class="grid">
+<a class="card live" href="./tumah/"><div class="emoji">🧪</div><div class="title">Tumah Transmission Lab</div><div class="meta">Build chains, test transmission mechanisms, and learn the levels of tumah.</div><span class="pill">▶ Play</span></a>
+<div class="card soon"><div class="emoji">🥩</div><div class="title">Kashrus Lab</div><div class="meta">Future module.</div><span class="pill">Coming later</span></div>
+<div class="card soon"><div class="emoji">🕯️</div><div class="title">Shabbos Lab</div><div class="meta">Future module.</div><span class="pill">Coming later</span></div>
+</div>
+<div class="footer">Hosted with GitHub Pages. Keep each module at the same folder path when updating it.</div>
+</div>
+<script>
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+ window.addEventListener('load',async()=>{try{const r=await navigator.serviceWorker.register('./sw.js',{scope:'./'});await r.update()}catch(e){}});
+}
+</script>
+</body></html>
