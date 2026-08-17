@@ -1,0 +1,13 @@
+{
+  "name": "Halacha Lab",
+  "short_name": "Halacha Lab",
+  "description": "Interactive halacha learning games.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f5f8",
+  "theme_color": "#111827",
+  "icons": [
+    {"src":"./icons/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
