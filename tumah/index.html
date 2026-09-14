@@ -1,2 +1,101 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Tumah Lab</title><meta name="theme-color" content="#111827"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Tumah Lab"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icons/icon.svg" type="image/svg+xml"><link rel="stylesheet" href="./app.css"></head><body><div class="app"><header><div class="brand">🧪 <span><b>Tumah Lab</b><small>Build a chain. See what happens.</small></span></div><button id="settingsBtn" class="ghost">⚙️</button></header><section class="card"><div class="eyebrow">Start with a Mishnah</div><div id="scenarios" class="scenarioRow"></div></section><section class="card play"><div class="controls"><select id="start"></select><button id="undo" class="ghost">↶</button><button id="reset" class="ghost">Reset</button></div><div id="assumptions" class="tiny"></div><div id="lesson"></div><div id="summary" class="summary"></div><div class="chainScroll"><div id="chain" class="chain"></div></div></section><section class="card learn"><div class="eyebrow">Ohalos 1:1–4</div><div class="mishna"><b>The pattern</b> אדם → אדם gives only two tamei links. כלים can extend the chain. When an <b>אדם is in the middle</b>, the chain can reach four links before dropping to טומאת ערב.</div><details><summary>Show the exact Mishnah patterns and machlokes</summary><div class="grid3"><div><b>א:א — two</b><br>מת → אדם = שבעה → אדם = ערב.</div><div><b>א:ב — three</b><br>מת → כלי = שבעה → כלי = שבעה → next = ערב.</div><div><b>א:ג — four</b><br>מת → כלי → אדם → כלי are שבעה; next = ערב.</div></div><div class="mishna"><b>חרב הרי הוא כחלל</b>This game follows Rambam: the special כלי chain is not limited to an actual sword and includes metal vessels, כלי שטף and clothing. Some Rishonim restrict this extension to metal vessels; non-metal extensions get a ⚖️ badge.</div><div class="mishna"><b>רבי עקיבא's “fifth”</b>R. Akiva proposes a fifth link using the tent and a spit fixed in it. Chachamim answer <b>אין האהל מתחשב</b>. The preset teaches this as a dispute rather than forcing it into an inaccurate ordinary chain.</div></details></section></div><button id="floatAdd" class="floatAdd">＋ Add next</button><div id="addBack" class="back"><div class="sheet"><i></i><div id="from" class="eyebrow"></div><h2>What happens next?</h2><h3>1. Relationship</h3><div id="acts" class="choices"></div><h3>2. Recipient</h3><div id="targets" class="choices"></div><div id="foodWrap" class="hide"><label>Food status<select id="foodClass"><option value="chullin">חולין</option><option value="terumah">תרומה</option><option value="kodesh">קודש</option></select></label></div><footer><button id="cancelAdd" class="ghost">Cancel</button><button id="saveAdd">Add step</button></footer></div></div><div id="settingsBack" class="back"><div class="sheet"><i></i><h2>Learning settings</h2><div class="mishna"><b>Default lens</b>Rambam-first. Important machlokes are shown instead of hidden.</div><label><input id="shiur" type="checkbox" checked> Assume required shiur</label><label><input id="hechsher" type="checkbox" checked> Assume food is מוכשר</label><label><input id="genericKli" type="checkbox" checked> Assume generic kli is susceptible</label><footer><button id="closeSettings">Done</button></footer></div></div><script src="./app.js"></script></body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tumah Lab</title>
+<meta name="theme-color" content="#111827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Tumah Lab">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./app.css">
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="brandIcon">🧪</div>
+      <div><h1>Tumah Lab</h1><small>Choose a scenario or build your own.</small></div>
+    </div>
+    <button class="iconBtn" id="settingsBtn">Learning settings</button>
+  </div>
+
+  <div class="panel">
+    <div class="eyebrow">Choose a scenario</div>
+    <div class="tiny" style="margin:5px 0 9px">Swipe through the presets, or use the source picker below to build any chain yourself.</div>
+    <div class="scenarioStrip" id="scenarioStrip"></div>
+  </div>
+
+  <div class="panel">
+    <div class="eyebrow">Build your own</div>
+    <div class="toolbar" style="margin-top:8px">
+      <select id="start"></select>
+      <button class="btn secondary" id="undo">↶ Undo</button>
+      <button class="btn secondary" id="reset">Reset</button>
+    </div>
+    <div class="assumption" id="assumptionLine"></div>
+    <div id="lesson"></div>
+    <div id="summary" class="resultHero"></div>
+    <div class="chainScroll"><div id="chain" class="chain"></div></div>
+  </div>
+
+  <div class="panel">
+    <div class="eyebrow">Ohalos 1:1–4</div>
+    <div class="mishnaBox"><b>The basic pattern</b> אדם → אדם gives only two tamei links. Keilim can extend the chain. The Ohalos presets above let you play the two-, three-, and four-link cases instead of treating them as a generic “special case.”</div>
+    <details>
+      <summary>Show the patterns and machlokes</summary>
+      <div class="learnGrid" style="margin-top:9px">
+        <div class="learnCard"><b>א:א — two</b>מת → אדם = שבעה → אדם = ערב.</div>
+        <div class="learnCard"><b>א:ב — three</b>מת → כלי = שבעה → כלי = שבעה → next = ערב.</div>
+        <div class="learnCard"><b>א:ג — four</b>מת → כלי → אדם → כלי are שבעה; next = ערב.</div>
+      </div>
+      <div class="mishnaBox"><b>חרב הרי הוא כחלל</b>The simulator uses the Rambam-first approach for the כלי chain and shows a ⚖️ warning where the broader application is subject to dispute.</div>
+      <div class="mishnaBox"><b>רבי עקיבא's “fifth”</b>The tent + spit case is taught as its own Mishnah dispute rather than forced into the ordinary linear chain.</div>
+    </details>
+  </div>
+</div>
+
+<button id="floatingAdd" class="floatingAdd">＋ Add next</button>
+
+<div id="addBack" class="sheetBack">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div id="fromLabel" class="eyebrow"></div>
+    <h2>What happens next?</h2>
+    <h3>1. Relationship</h3>
+    <div id="actionChoices" class="choiceGrid"></div>
+    <h3>2. Recipient</h3>
+    <div id="targetChoices" class="choiceGrid"></div>
+    <div id="foodOptions" class="hidden" style="margin-top:10px">
+      <label>Food status
+        <select id="foodClass">
+          <option value="chullin">חולין</option>
+          <option value="terumah">תרומה</option>
+          <option value="kodesh">קודש</option>
+        </select>
+      </label>
+    </div>
+    <div class="sheetFooter">
+      <button id="cancelAdd" class="btn secondary">Cancel</button>
+      <button id="saveAdd" class="btn">Add step</button>
+    </div>
+  </div>
+</div>
+
+<div id="settingsBack" class="sheetBack">
+  <div class="sheet">
+    <div class="handle"></div>
+    <h2>Learning settings</h2>
+    <div class="mishnaBox"><b>Default lens</b>Rambam-first. Important machlokes are shown instead of hidden.</div>
+    <label><input id="shiur" type="checkbox" checked> Assume required shiur</label><br>
+    <label><input id="hechsher" type="checkbox" checked> Assume food is מוכשר</label><br>
+    <label><input id="genericKli" type="checkbox" checked> Assume generic kli is susceptible</label>
+    <div class="sheetFooter"><button id="closeSettings" class="btn">Done</button></div>
+  </div>
+</div>
+
+<script src="./app.js"></script>
+</body>
+</html>
