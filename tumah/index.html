@@ -17,19 +17,19 @@
   <div class="topbar">
     <div class="brand">
       <div class="brandIcon">🧪</div>
-      <div><h1>Tumah Lab</h1><small>Choose a scenario or build your own.</small></div>
+      <div><h1>Tumah Lab</h1><small>Choose a scenario, or build one yourself.</small></div>
     </div>
     <button class="iconBtn" id="settingsBtn">Learning settings</button>
   </div>
 
   <div class="panel">
     <div class="eyebrow">Choose a scenario</div>
-    <div class="tiny" style="margin:5px 0 9px">Swipe through the presets, or use the source picker below to build any chain yourself.</div>
+    <div class="tiny" style="margin:5px 0 9px">Pick any preset below. The simulator applies the relevant tumah rules automatically, including the special tumas meis / kli chains when they come up.</div>
     <div class="scenarioStrip" id="scenarioStrip"></div>
   </div>
 
   <div class="panel">
-    <div class="eyebrow">Build your own</div>
+    <div class="eyebrow">Build your own scenario</div>
     <div class="toolbar" style="margin-top:8px">
       <select id="start"></select>
       <button class="btn secondary" id="undo">↶ Undo</button>
@@ -39,21 +39,6 @@
     <div id="lesson"></div>
     <div id="summary" class="resultHero"></div>
     <div class="chainScroll"><div id="chain" class="chain"></div></div>
-  </div>
-
-  <div class="panel">
-    <div class="eyebrow">Ohalos 1:1–4</div>
-    <div class="mishnaBox"><b>The basic pattern</b> אדם → אדם gives only two tamei links. Keilim can extend the chain. The Ohalos presets above let you play the two-, three-, and four-link cases instead of treating them as a generic “special case.”</div>
-    <details>
-      <summary>Show the patterns and machlokes</summary>
-      <div class="learnGrid" style="margin-top:9px">
-        <div class="learnCard"><b>א:א — two</b>מת → אדם = שבעה → אדם = ערב.</div>
-        <div class="learnCard"><b>א:ב — three</b>מת → כלי = שבעה → כלי = שבעה → next = ערב.</div>
-        <div class="learnCard"><b>א:ג — four</b>מת → כלי → אדם → כלי are שבעה; next = ערב.</div>
-      </div>
-      <div class="mishnaBox"><b>חרב הרי הוא כחלל</b>The simulator uses the Rambam-first approach for the כלי chain and shows a ⚖️ warning where the broader application is subject to dispute.</div>
-      <div class="mishnaBox"><b>רבי עקיבא's “fifth”</b>The tent + spit case is taught as its own Mishnah dispute rather than forced into the ordinary linear chain.</div>
-    </details>
   </div>
 </div>
 
@@ -88,7 +73,7 @@
   <div class="sheet">
     <div class="handle"></div>
     <h2>Learning settings</h2>
-    <div class="mishnaBox"><b>Default lens</b>Rambam-first. Important machlokes are shown instead of hidden.</div>
+    <div class="mishnaBox"><b>Default lens</b>Rambam-first. Important machlokes are shown when they matter.</div>
     <label><input id="shiur" type="checkbox" checked> Assume required shiur</label><br>
     <label><input id="hechsher" type="checkbox" checked> Assume food is מוכשר</label><br>
     <label><input id="genericKli" type="checkbox" checked> Assume generic kli is susceptible</label>
