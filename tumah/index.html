@@ -14,46 +14,43 @@
 </head>
 <body>
 <div class="app">
-  <div class="topbar">
-    <div class="brand">
-      <div class="brandIcon">🧪</div>
-      <div><h1>Tumah Lab</h1><small>Choose a scenario, or build one yourself.</small></div>
-    </div>
-    <button class="iconBtn" id="settingsBtn">Learning settings</button>
-  </div>
+  <header>
+    <div class="brand">🧪<span><b>Tumah Lab</b><small>Choose a scenario or build your own.</small></span></div>
+    <button id="settingsBtn" class="ghost">⚙️</button>
+  </header>
 
-  <div class="panel">
+  <section class="card">
     <div class="eyebrow">Choose a scenario</div>
-    <div class="tiny" style="margin:5px 0 9px">Pick any preset below. The simulator applies the relevant tumah rules automatically, including the special tumas meis / kli chains when they come up.</div>
-    <div class="scenarioStrip" id="scenarioStrip"></div>
-  </div>
+    <div class="tiny">Pick a preset below. The Ohalos rules are built into the simulator when relevant, but this remains a general Tumah game.</div>
+    <div id="scenarios" class="scenarioRow"></div>
+  </section>
 
-  <div class="panel">
+  <section class="card play">
     <div class="eyebrow">Build your own scenario</div>
-    <div class="toolbar" style="margin-top:8px">
+    <div class="controls">
       <select id="start"></select>
-      <button class="btn secondary" id="undo">↶ Undo</button>
-      <button class="btn secondary" id="reset">Reset</button>
+      <button id="undo" class="ghost">↶ Undo</button>
+      <button id="reset" class="ghost">Reset</button>
     </div>
-    <div class="assumption" id="assumptionLine"></div>
+    <div id="assumptions" class="tiny"></div>
     <div id="lesson"></div>
-    <div id="summary" class="resultHero"></div>
+    <div id="summary" class="summary"></div>
     <div class="chainScroll"><div id="chain" class="chain"></div></div>
-  </div>
+  </section>
 </div>
 
-<button id="floatingAdd" class="floatingAdd">＋ Add next</button>
+<button id="floatAdd" class="floatAdd">＋ Add next</button>
 
-<div id="addBack" class="sheetBack">
+<div id="addBack" class="back">
   <div class="sheet">
-    <div class="handle"></div>
-    <div id="fromLabel" class="eyebrow"></div>
+    <i></i>
+    <div id="from" class="eyebrow"></div>
     <h2>What happens next?</h2>
     <h3>1. Relationship</h3>
-    <div id="actionChoices" class="choiceGrid"></div>
+    <div id="acts" class="choices"></div>
     <h3>2. Recipient</h3>
-    <div id="targetChoices" class="choiceGrid"></div>
-    <div id="foodOptions" class="hidden" style="margin-top:10px">
+    <div id="targets" class="choices"></div>
+    <div id="foodWrap" class="hide" style="margin-top:10px">
       <label>Food status
         <select id="foodClass">
           <option value="chullin">חולין</option>
@@ -62,25 +59,62 @@
         </select>
       </label>
     </div>
-    <div class="sheetFooter">
-      <button id="cancelAdd" class="btn secondary">Cancel</button>
-      <button id="saveAdd" class="btn">Add step</button>
-    </div>
+    <footer>
+      <button id="cancelAdd" class="ghost">Cancel</button>
+      <button id="saveAdd">Add step</button>
+    </footer>
   </div>
 </div>
 
-<div id="settingsBack" class="sheetBack">
+<div id="settingsBack" class="back">
   <div class="sheet">
-    <div class="handle"></div>
+    <i></i>
     <h2>Learning settings</h2>
-    <div class="mishnaBox"><b>Default lens</b>Rambam-first. Important machlokes are shown when they matter.</div>
-    <label><input id="shiur" type="checkbox" checked> Assume required shiur</label><br>
-    <label><input id="hechsher" type="checkbox" checked> Assume food is מוכשר</label><br>
+    <div class="mishna"><b>Default lens</b>Rambam-first. Important machlokes are shown when they matter.</div>
+    <label><input id="shiur" type="checkbox" checked> Assume required shiur</label>
+    <label><input id="hechsher" type="checkbox" checked> Assume food is מוכשר</label>
     <label><input id="genericKli" type="checkbox" checked> Assume generic kli is susceptible</label>
-    <div class="sheetFooter"><button id="closeSettings" class="btn">Done</button></div>
+    <footer><button id="closeSettings">Done</button></footer>
   </div>
 </div>
 
 <script src="./app.js"></script>
+<script>
+(function(){
+  const row=document.getElementById('scenarios');
+  if(!row) return;
+  const original=[...row.children];
+  if(original.length<8) return;
+
+  const rename=(btn,title,desc)=>{
+    btn.classList.remove('ohalot');
+    const b=btn.querySelector('b');
+    const s=btn.querySelector('span');
+    if(b) b.textContent=title;
+    if(s) s.textContent=desc;
+  };
+  rename(original[0],'⚰️ Corpse chain · Person → person','First person: 7 days. Second person: until evening.');
+  rename(original[1],'⚰️ Corpse chain · Kli → kli','Two keilim stay 7-day tamei; the next link drops to tumat erev.');
+  rename(original[2],'⚰️ Corpse chain · Kli → person → kli','The special kli/person chain can keep three links at 7-day tumah.');
+  rename(original[3],'⛺ Advanced corpse case · Tent + spit','R. Akiva vs. Chachamim: האם האהל מתחשב.');
+
+  row.innerHTML='';
+  [4,5,6,7].forEach(i=>row.appendChild(original[i]));
+
+  const zav=document.createElement('button');
+  zav.className='scenario';
+  zav.innerHTML='<b>🛏️ Zav · Midras</b><span>A zav bears weight on a bed; the bed becomes מדרס.</span>';
+  zav.addEventListener('click',()=>window.load({s:'zav',x:[['bears','bed'],['touches','person']]}));
+  row.appendChild(zav);
+
+  const clay=document.createElement('button');
+  clay.className='scenario';
+  clay.innerHTML='<b>🏺 Kli cheres · Airspace</b><span>See why כלי חרס uses inner airspace rather than ordinary outer contact.</span>';
+  clay.addEventListener('click',()=>window.load({s:'sheretz',x:[['air','clay']]}));
+  row.appendChild(clay);
+
+  [0,1,2,3].forEach(i=>row.appendChild(original[i]));
+})();
+</script>
 </body>
 </html>
