@@ -10,38 +10,61 @@
 <meta name="apple-mobile-web-app-title" content="Tumah Lab">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="./app.css">
+<link rel="stylesheet" href="./app.css?v=16">
 </head>
 <body>
 <div class="app">
   <header>
     <div class="brand">🧪<span><b>Tumah Lab</b><small>Choose a scenario or build your own.</small></span></div>
-    <button id="settingsBtn" class="ghost">⚙️</button>
+    <button id="settingsBtn" class="ghost" type="button" aria-label="Learning settings">⚙️</button>
   </header>
 
   <section class="card">
     <div class="eyebrow">Choose a scenario</div>
-    <div class="tiny">Pick a preset below. The Ohalos rules are built into the simulator when relevant, but this remains a general Tumah game.</div>
-    <div id="scenarios" class="scenarioRow"></div>
+    <div class="tiny">Pick any preset. Rules from Ohalos are built into the simulator when they become relevant.</div>
+    <div id="scenarios" class="scenarioRow">
+      <button type="button" class="scenario" data-scenario="sheretz"><b>🦎 Sheretz · Contact</b><span>Basic אב → person → food chain.</span></button>
+      <button type="button" class="scenario" data-scenario="neveilah"><b>🐑 Neveilah · Carry</b><span>See how משא can transmit tumah.</span></button>
+      <button type="button" class="scenario" data-scenario="bone"><b>🦴 Bone · Ohel test</b><span>עצם כשעורה: מגע/משא yes; אהל no.</span></button>
+      <button type="button" class="scenario" data-scenario="kodesh"><b>🍞 Kodesh ladder</b><span>Follow the chain through שלישי and רביעי.</span></button>
+      <button type="button" class="scenario" data-scenario="zav"><b>🛏️ Zav · Midras</b><span>A zav bears weight on a bed; the bed becomes מדרס.</span></button>
+      <button type="button" class="scenario" data-scenario="clay"><b>🏺 Kli cheres · Airspace</b><span>כלי חרס is different from ordinary outer contact.</span></button>
+      <button type="button" class="scenario" data-scenario="corpse2"><b>⚰️ Corpse · Person → person</b><span>First person: seven days. Second person: until evening.</span></button>
+      <button type="button" class="scenario" data-scenario="corpse3"><b>⚰️ Corpse · Kli → kli</b><span>The tumat-met kli chain extends further.</span></button>
+      <button type="button" class="scenario" data-scenario="corpse4"><b>⚰️ Corpse · Kli → person → kli</b><span>See the extended כלי/אדם chain.</span></button>
+      <button type="button" class="scenario" data-scenario="akiva"><b>⛺ Advanced corpse case</b><span>R. Akiva and Chachamim on tent + metal spit.</span></button>
+    </div>
   </section>
 
   <section class="card play">
     <div class="eyebrow">Build your own scenario</div>
     <div class="controls">
-      <select id="start"></select>
-      <button id="undo" class="ghost">↶ Undo</button>
-      <button id="reset" class="ghost">Reset</button>
+      <select id="start" aria-label="Starting source">
+        <option value="met">⚰️ Dead body — מת</option>
+        <option value="sheretz">🦎 Dead sheretz — שרץ</option>
+        <option value="neveilah">🐑 Neveilah — נבילה</option>
+        <option value="zav">🧍 Zav — זב</option>
+        <option value="bone">🦴 Barley-size bone — עצם כשעורה</option>
+        <option value="blood">🩸 Revi’it corpse blood — רביעית דם מן המת</option>
+        <option value="person">🧍 Person — אדם</option>
+        <option value="metal">🔪 Metal knife — כלי מתכות</option>
+        <option value="cup">🥣 Cup / utensil — כלי שטף</option>
+        <option value="bread">🍞 Bread — אוכל</option>
+        <option value="water">💧 Water — משקה</option>
+      </select>
+      <button id="undo" class="ghost" type="button">↶ Undo</button>
+      <button id="reset" class="ghost" type="button">Reset</button>
     </div>
     <div id="assumptions" class="tiny"></div>
     <div id="lesson"></div>
-    <div id="summary" class="summary"></div>
+    <div id="summary" class="summary">Loading scenario…</div>
     <div class="chainScroll"><div id="chain" class="chain"></div></div>
   </section>
 </div>
 
-<button id="floatAdd" class="floatAdd">＋ Add next</button>
+<button id="floatAdd" class="floatAdd" type="button">＋ Add next</button>
 
-<div id="addBack" class="back">
+<div id="addBack" class="back" role="dialog" aria-modal="true" aria-label="Add next step">
   <div class="sheet">
     <i></i>
     <div id="from" class="eyebrow"></div>
@@ -60,13 +83,13 @@
       </label>
     </div>
     <footer>
-      <button id="cancelAdd" class="ghost">Cancel</button>
-      <button id="saveAdd">Add step</button>
+      <button id="cancelAdd" class="ghost" type="button">Cancel</button>
+      <button id="saveAdd" type="button">Add step</button>
     </footer>
   </div>
 </div>
 
-<div id="settingsBack" class="back">
+<div id="settingsBack" class="back" role="dialog" aria-modal="true" aria-label="Learning settings">
   <div class="sheet">
     <i></i>
     <h2>Learning settings</h2>
@@ -74,47 +97,10 @@
     <label><input id="shiur" type="checkbox" checked> Assume required shiur</label>
     <label><input id="hechsher" type="checkbox" checked> Assume food is מוכשר</label>
     <label><input id="genericKli" type="checkbox" checked> Assume generic kli is susceptible</label>
-    <footer><button id="closeSettings">Done</button></footer>
+    <footer><button id="closeSettings" type="button">Done</button></footer>
   </div>
 </div>
 
-<script src="./app.js"></script>
-<script>
-(function(){
-  const row=document.getElementById('scenarios');
-  if(!row) return;
-  const original=[...row.children];
-  if(original.length<8) return;
-
-  const rename=(btn,title,desc)=>{
-    btn.classList.remove('ohalot');
-    const b=btn.querySelector('b');
-    const s=btn.querySelector('span');
-    if(b) b.textContent=title;
-    if(s) s.textContent=desc;
-  };
-  rename(original[0],'⚰️ Corpse chain · Person → person','First person: 7 days. Second person: until evening.');
-  rename(original[1],'⚰️ Corpse chain · Kli → kli','Two keilim stay 7-day tamei; the next link drops to tumat erev.');
-  rename(original[2],'⚰️ Corpse chain · Kli → person → kli','The special kli/person chain can keep three links at 7-day tumah.');
-  rename(original[3],'⛺ Advanced corpse case · Tent + spit','R. Akiva vs. Chachamim: האם האהל מתחשב.');
-
-  row.innerHTML='';
-  [4,5,6,7].forEach(i=>row.appendChild(original[i]));
-
-  const zav=document.createElement('button');
-  zav.className='scenario';
-  zav.innerHTML='<b>🛏️ Zav · Midras</b><span>A zav bears weight on a bed; the bed becomes מדרס.</span>';
-  zav.addEventListener('click',()=>window.load({s:'zav',x:[['bears','bed'],['touches','person']]}));
-  row.appendChild(zav);
-
-  const clay=document.createElement('button');
-  clay.className='scenario';
-  clay.innerHTML='<b>🏺 Kli cheres · Airspace</b><span>See why כלי חרס uses inner airspace rather than ordinary outer contact.</span>';
-  clay.addEventListener('click',()=>window.load({s:'sheretz',x:[['air','clay']]}));
-  row.appendChild(clay);
-
-  [0,1,2,3].forEach(i=>row.appendChild(original[i]));
-})();
-</script>
+<script src="./app.js?v=16"></script>
 </body>
 </html>
